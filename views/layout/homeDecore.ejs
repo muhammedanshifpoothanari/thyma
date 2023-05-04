@@ -1,0 +1,22 @@
+<div class="entryBanner">
+   <div class="bannerHome">
+    <div class="colorBanner"></div>
+    <span id="marquee" 
+    >Thyma</span>
+   </div>
+   <div class="colorBanner_"></div>
+   <div class="textBar">
+  
+    <div class="seeMore"><i  class="fa">&#xf111;</i> See Work <i class='fa-solid fa-arrow-down'></i></div>
+    <p class="textOutBanner"> Being in the industry since 1999.</p>
+   </div>
+   </div>
+</div>
+<script>const parallaxDiv = document.querySelector('.entryBanner');
+
+   window.addEventListener('scroll', () => {
+     const scrollPosition = window.pageYOffset;
+   
+     parallaxDiv.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+   });
+   </script>

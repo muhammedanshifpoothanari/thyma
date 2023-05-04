@@ -1,0 +1,46 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+
+<div class="container mt-5 main" id="main" >
+    <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-12 ">
+            <h1 class=" text-info">User list</h1>
+            
+            <table class="table table-borderless main">
+      <thead>
+        <tr>
+          <th class="border"><strong>user name:</strong></th>
+          <th class="border"><strong>email:</strong></th>
+          <th class="border"><strong>product mobile:</strong></th>
+          <th class="border"><strong>user is  admin:</strong></th>
+          <th class="border"><strong>status</strong></th>
+          <th class="border"><strong>edit</strong></th>
+          
+        </tr>
+      </thead>
+      <tbody>
+         <% users.forEach((user) => { %>
+          <tr>
+            <td class="border"><%= user.name %></td>
+            <td class="border"><%= user.email %></td>
+            <td class="border"><%= user.mobile %></td>
+            <td class="border"><%= user.is_admin %></td>
+            <td class="border"><%= user.is_varified ? 'active' : 'blocked' %></td>
+              
+            <td class="border">  <% if (user.is_varified) { %>
+             <a class="btn btn-warning btn-sm  " href="/admin/unlist-user?id=<%= user._id %>">block</a>
+           <% } else { %>
+             <a class="btn btn-warning btn-sm  " href="/admin/list-user?id=<%= user._id %>">unblock</a>
+           <% } %></td>
+          
+          </tr>
+         <% }); %>       
+     </table>
+</div>
+</div>
+</div>
+
+<%- include('../layout/adminNewFooter.ejs') %>

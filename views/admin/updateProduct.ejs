@@ -1,0 +1,168 @@
+
+
+
+
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+  <style>
+    .main{
+    background: linear-gradient(135deg, #fe437b, #c3cfe2 30%, #f4f4f4 30%, #94b6c3);}
+  </style>
+<div class="container tm-mt-big tm-mb-big main" style="padding-top: 80px;">
+    <div class="row">
+      <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto ">
+        <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="tm-block-title d-inline-block">update Product</h2>
+            </div>
+          </div>
+          <div class="row tm-edit-product-row">
+            <div class="col-xl-6 col-lg-6 col-md-12">
+              <form id="myForm" action="/admin/editPostProduct/<%= product._id %>" class="tm-edit-product-form" method="post" enctype="multipart/form-data">
+                <label for="id"></label>
+                
+                <div class="form-group mb-3">
+                  <label for="name">Product Name</label>
+                  <input id="name" name="name" type="text" class="form-control validate" value="<%= product.name %>" placeholder="<%= product.name %>">
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="description">Description</label>
+                  <textarea class="form-control validate" id="description" name="description" rows="3"><%= product.description %></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="category">Choose a category:</label>
+                  <select id="category" name="category">
+                    <option value="trending" <% if (product.catogery === 'trending') { %>selected<% } %>>Trending</option>
+                    <option value="medjoul" <% if (product.catogery === 'medjoul') { %>selected<% } %>>Medjoul</option>
+                    <option value="ajwa" <% if (product.catogery === 'ajwa') { %>selected<% } %>>Ajwa</option>
+                  </select>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="origin">Origin:</label>
+                  <select id="origin" name="origin">
+                    <option value="jordan" <% if (product.origin === 'jordan') { %>selected<% } %>>Jordan</option>
+                    <option value="tabuk" <% if (product.origin === 'tabuk') { %>selected<% } %>>Tabuk</option>
+                    <option value="al-qassim" <% if (product.origin === 'al-qassim') { %>selected<% } %>>Al-Qassim</option>
+                    <option value="rajasthan" <% if (product.origin === 'rajasthan') { %>selected<% } %>>Rajasthan</option>
+                    <option value="madinah" <% if (product.origin === 'madinah') { %>selected<% } %>>Madinah</option>
+                  </select>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group mb-3 col-xs-12 col-sm-6">
+                    <label for="expiryDate">Expire Date</label>
+                    <input type="date" id="expiryDate" name="expiryDate" value="<%= product.expiryDate %>" class="form-control validate" data-large-mode="true"/>
+                  </div>
+                  
+              
+                      <div class="form-group mb-3 col-xs-12 col-sm-6">
+                        <label
+                          for="stock"
+                          >Kg
+                        </label>
+                        <input
+                          id="unitInStock"
+                          name="unitInStock"
+                          type="number"
+                          value="<%= product.unitInStock %>"
+                          placeholder="<%= product.unitInStock %>"
+                          class="form-control validate"
+                          min="0"
+                        
+                        />
+                      </div>
+                      <div class="form-group mb-3">
+                        <label
+                          for="price"
+                          >offer%
+                        </label>
+                        <input
+                          id="price"
+                          name="offer"
+                          type="number"
+                          min="0"
+                          value="<%= product.offer %>"
+                          placeholder="<%= product.offer %>" 
+                        />%
+                        </div>
+                        <div class="form-group mb-3">
+                          <label
+                            for="price"
+                            >expense/kg
+                          </label>
+                          <input
+                            id="price"
+                            value="<%= product.expensePerUnit %>"
+                          placeholder="<%= product.expensePerUnit %>"
+                            name="expense"
+                            type="number"
+                            min="0"
+                          />
+                          </div>
+                </div>
+                
+              </div>
+             
+              <div class="form-group mb-3">
+                <label for="image">Product Images</label>
+                <input id="image-input" type="file" name="image" accept="image/*" multiple />
+              <div style="display: flex;">
+                <% for (var i = 0; i < product.image.length; i++) { %>
+                  <div class="image-preview" style="margin-left: 10px;margin-right: 10px;margin-top:10px;">
+                    <img src="/userimages/<%= product.image[i] %>" width="100" height="100" />
+                    <button type="button" class="btn btn-danger" onclick="deleteImage('<%= product.image[i] %>')">Delete</button>
+                  </div>
+                <% } %>
+                
+               
+              </div>
+              </div>
+              
+             
+      
+                <div class="form-group mb-3">
+                  <label for="price">Price </label>
+                  <input id="price" name="price" value="<%= product.price %>" placeholder="<%= product.price %>" type="number" min="0"/>
+                  </div>
+              
+           
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Edit Product Now</button>
+              </div>
+          </form>
+          <p>
+            <% 
+               if(typeof msg !== 'undefined'){
+            %>
+            <p style="color:green"><%= msg %></p>
+            <%
+               }
+               %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <script>
+    function deleteImage(imagePath) {
+  const imagePreview = document.querySelector(`.image-preview img[src="/userimages/${imagePath}"]`).parentNode;
+  if (imagePreview) {
+    imagePreview.parentNode.removeChild(imagePreview);
+    const deleteInput = document.createElement('input');
+    deleteInput.setAttribute('type', 'hidden');
+    deleteInput.setAttribute('name', 'deleteImage');
+    deleteInput.setAttribute('value', imagePath);
+    document.querySelector('#myForm').appendChild(deleteInput);
+  }
+}
+
+                </script>
+
+  <%- include('../layout/adminNewFooter.ejs') %>

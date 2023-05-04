@@ -1,0 +1,46 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+<!-- ======= Header ======= -->
+<%- include('../layout/headerNavAdmin.ejs') %>
+<%- include('../layout/slidebar.ejs') %>
+
+<section id="main" class="main">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11" style="background: linear-gradient(135deg, #FFECE2, #FFECE2 30%, #F4F4F4 30%, #F4F4F4);">
+        <div class="card_s text-black" style="border-radius: 8px 8px 8px 100px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <div class="card_s p-2 text-center">
+                  <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Category</h1>
+                  <form method="POST" action="/admin/addCategory">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <br><br>
+                    <button type="submit" style="background-color: brown;">Submit</button>
+                  </form>
+                  <br>
+                  <a class="btn btn-success btn-sm"href="/admin/categories">Back to Categories</a>
+                  <p>
+                    <% 
+                       if(typeof msg !== 'undefined'){
+                    %>
+                    <p style="color:green"><%= msg %></p>
+                    <%
+                       }
+                       %>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid image-verify" alt="Sample image">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../layout/adminNewFooter.ejs') %>

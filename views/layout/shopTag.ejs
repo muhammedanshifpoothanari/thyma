@@ -1,0 +1,22 @@
+<div class="entryBanner">
+    <div class="bannerHome">
+     <div class="colorBanner"></div>
+     <span id="marquee" 
+     >Shop</span>
+    </div>
+    
+    <div class="colorBanner_"></div>
+    <div class="textBar">
+   
+
+    </div>
+    </div>
+ </div>
+ <script>const parallaxDiv = document.querySelector('.entryBanner');
+ 
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.pageYOffset;
+    
+      parallaxDiv.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+    });
+    </script>

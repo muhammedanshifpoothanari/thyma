@@ -1,0 +1,126 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+<div class="container-fluid my-5  d-flex  justify-content-center main" id="main" style="flex-direction: column; padding-left: 10%;padding-right: 10%;">
+    <div class="card_s card-1">
+        <div class="card-header bg-white">
+            <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                <div class="col my-auto"> <h4 class="mb-0">customer name:<span class="change-color"><%= orders.ref %></span> </h4> </div>
+                
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-between mb-3">
+                <div class="col-auto"> <h6 class="color-1 mb-0 change-color">Receipt</h6> </div>
+                <div class="col-auto  "> <small></small> </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card_s card-2">
+                        <div class="card-body">
+                            <div class="media">
+                                <% combined.forEach((products) => { %>
+                                <div class="sq align-self-center "> <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="/userimages/<%= products.image[0] %>" width="135" height="135" /> </div>
+                                <div class="media-body my-auto text-right">
+                                    <div class="row  my-auto flex-column flex-md-row">
+                                        <div class="col my-auto"> <h6 class="mb-0"><%= products.name %></h6>  </div>
+                                        <div class="col-auto my-auto"> <small>Golden Rim </small></div>
+                                        
+                                        <div class="col my-auto"> <small>Qty : <span id="quantity"><%= products.quantity %></span></small></div>
+                                        <div class="col my-auto"><h6 class="mb-0">&#8377; <%= products.price %></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <% if (products.isDispatched===false) { %>
+                            <button type="submit" onclick="dispatch('<%= products._id %>')" id="cancel" style="border-radius: 100px 80px 30px 40px;background-color: red; color: whitesmoke;">Dispatch From Warehouse</button>
+                            <span id="msg"></span>
+                            <% }else { %>
+                               <span>already dispatched successfully</span>
+                              <% } %>
+                            <% }); %>
+                            <hr class="my-3 ">
+                            <div class="row">
+                                <div class="col-md-3 mb-3"> <small> Track Order <span><i class=" ml-2 fa fa-refresh"  aria-hidden="true"></i></span></small> </div>
+                                <div class="col mt-auto">
+                                    <div class="media col justify-content-between ">
+                                        
+
+                                        <div class="flex-col"> <span> <small class="text-right mr-sm-2"><span id="pay"><i class="fa fa-circle active" style="color:red"></i>PaymentStatus: <%= orders.paymentStatus %></span></small></span></div>
+                                        <br>
+                                        <div class="col-auto flex-col-auto"><small  class="text-right mr-sm-2"><span id="del"><i  class="fa fa-circle" style="color:red"></i>DeliveryStatus: <%= orders.deliveryStatus %></span></small><span> </span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="row justify-content-between">
+                        <div class="col-auto"><p class="mb-1 text-dark"><b>Order Details</b></p></div>
+                        <div class="flex-sm-col text-right col"> <p class="mb-1"><b>Total</b></p> </div>
+                        <div class="flex-sm-col col-auto"> <p class="mb-1"><%= orders.total %></p> </div>
+                    </div>
+                    
+                   
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col"><p class="mb-1"><b>Delivery Charges</b></p></div>
+                        <div class="flex-sm-col col-auto"><p class="mb-1">Free</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row invoice ">
+                <div class="col"><p class="mb-1"> Invoice Number : <span id="orderId"> <%= orders._id %></span></p><p class="mb-1"></p><p class="mb-1"></p></div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="jumbotron-fluid">
+                <div class="row justify-content-between ">
+                    
+                    <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL payable</h2></div>
+                    <div class="col-auto my-auto ml-auto"><h1 class="display-3 "> <%= orders.total %></h1></div>
+                </div>
+                <div class="row  mt-4 ">
+                    <div class="col-auto border-line"> <small class="text-white"><%= orders.email%></small></div>
+                    <div class="col-auto border-line"> <small class="text-white">payMode:<%= orders.payMode %></small></div>
+                    
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+<script>
+    function dispatch(orderItemId){
+        console.log('hihihihihihhii///////////////');
+        let orderId=document.getElementById('orderId').textContent;
+        let quantity=document.getElementById('quantity').textContent;
+        let pay=document.getElementById('pay').textContent;
+        let del=document.getElementById('del').textContent;
+        
+      const xhttp = new XMLHttpRequest();
+    
+      $.ajax({
+        url:'/admin/dispatchs',
+        type:'post',
+        dataType:'json',
+        contentType:'application/json',
+        data:JSON.stringify({orderItemId: orderItemId,orderId:orderId,quantity:quantity,pay:pay,del:del}),
+          success:(data)=>{
+                if(data){
+                    console.log('hi');
+                    $("#cancel").hide();
+                    document.getElementById('msg').innerHTML=data.msg
+                }
+          }
+        }
+      )
+    }
+ 
+   
+</script>
+<%- include('../layout/adminNewFooter.ejs') %>

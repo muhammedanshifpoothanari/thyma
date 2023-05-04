@@ -1,0 +1,26 @@
+<div class="categoryBanner">
+    <div class="row-cols-6g-4">
+<h2 class="textInCategory" >category</h2>
+<img  src="/userimages/DALL·E 2023-04-12 09.14.17 - a sunlit indoor shop area with a tree with clear dates and another man carying dates with translucent pastel yellow dates, next to a big window, digit.png" width="400px" height="400px" style="border-radius:50px ;" alt=""></div>
+<!-- <div style="background-color: azure;grid-row: 15/24; grid-column: 22/30"></div>
+<div style="background-color: azure;grid-row: 15/24; grid-column: 12/20"></div> -->
+<div class="row row-cols-1 row-cols-md-5 g-4" style="border-radius: 50px;">
+     <% categories.forEach(category => { %>
+      <div class="col seeMore_" >
+        <div class="card h-100">
+          <div class="bg-image hover-overlay ripple" style="border-radius:50px ;" data-mdb-ripple-color="light">
+            
+              <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+            </a>
+          </div>
+          <div class="card-body">
+           
+           <a href="/home" style="text-decoration: none;"> <p class="card-text"><h3><%= category.name %></h3></p></a>
+           
+          </div>
+        </div>
+      </div>
+      <% }) %>
+  </div>
+
+</div>

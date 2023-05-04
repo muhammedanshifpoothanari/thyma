@@ -1,0 +1,157 @@
+
+
+
+
+
+
+
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+
+  <%- include('../layout/slidebar.ejs') %>
+  <style>
+    .main{
+    background: linear-gradient(135deg, #2b3648, #c3cfe2 30%, #f4f4f4 30%, #94b6c3);}
+  </style>
+<div class="container tm-mt-big tm-mb-big main" id="main" >
+    <div class="row">
+      <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto ">
+        <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="tm-block-title d-inline-block">Add Product</h2>
+            </div>
+          </div>
+          <div class="row tm-edit-product-row">
+            <div class="col-xl-6 col-lg-6 col-md-12">
+              <form action="" class="tm-edit-product-form" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
+
+                <div class="form-group mb-3">
+                  <label
+                    for="name"
+                    >Product Name
+                  </label>
+                  <input id="name" name="name" type="text" class="form-control validate" required/>
+                </div>
+                <div class="form-group mb-3">
+                  <label
+                    for="description"
+                    >Description</label
+                  >
+                  <textarea class="form-control validate" id="description" name="description"
+                    type="text"
+                    rows="3"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="category">Choose a category:</label>
+                  <select id="category" name="origin">
+                    <option>tabuk</option>
+                    <option>al qassim</option>
+                    <option>rajasthan</option>
+                    <option>madheena</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="category">Choose a category:</label>
+                  <select id="category" name="category">
+                    <% categories.forEach((category) => { %>
+                      <option><%= category.name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+
+                    <!-- -->
+                 
+               
+                <div class="row">
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
+                        <label for="expiryDate">Expire Date </label>
+                        <input id="expiryDate" name="expiryDate" type="date" class="form-control validate" data-large-mode="true"/>
+                      </div>
+                      <div class="form-group mb-3 col-xs-12 col-sm-6">
+                        <label for="stock">kg.</label>
+                        <input id="stock" name="stock" type="number" class="form-control validate" min="0" required/>
+                      </div>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="price">offer%
+                  </label>
+                  <input id="price" name="offer" type="number" min="0"/>%
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="price"
+                      >expense/kg
+                    </label>
+                    <input id="price"  name="expense"  type="number"  min="0"/>
+                    </div>
+            </div>
+
+           
+            <div class="form-group mb-3">
+              <label for="image">Product Images</label>
+              <input id="image" type="file" name="image" onchange="previewImages(event)"  accept="image/*" multiple />
+              <div id="image-preview" style="display:flex;width: 100px; height: 100px;"></div>
+            </div> 
+              <div class="form-group mb-3">
+                <label for="price">Price</label>
+                <input id="price" name="price" type="number"  min="0" required/>
+                </div>
+                
+               
+                    
+            
+         
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+            </div>
+          </form>
+          <p>
+            <% 
+               if(typeof msg !== 'undefined'){
+            %>
+            <p style="color:green"><%= msg %></p>
+            <%
+               }
+               %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+function previewImages(event) {
+  const container = document.getElementById('image-preview');
+  container.innerHTML = ''; // clear any existing previews
+  const files = event.target.files;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const img = new Image();
+      img.src = event.target.result;
+      img.style.maxWidth = '100px'; // set max width to 500 pixels
+
+      const previewContainer = document.createElement('div');
+      previewContainer.style.display = 'flex';
+      previewContainer.style.flexDirection = 'column';
+      previewContainer.style.marginTop = '10px';
+      previewContainer.style.marginRight = '10px';
+      previewContainer.style.marginBottom = '10px';
+
+      previewContainer.appendChild(img);
+      container.appendChild(previewContainer);
+    };
+
+    reader.readAsDataURL(file);
+  }
+}
+
+</script>
+  <%- include('../layout/adminNewFooter.ejs') %>

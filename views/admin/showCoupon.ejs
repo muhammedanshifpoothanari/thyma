@@ -1,0 +1,50 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+<div class="container col-md-6 main" id="main" style="width: fit-content;">
+    <div id="login-row" class="row  align-items-center">
+        <div id="login-column" class="col-md-6 ">
+            <h1 class=" text-info">coupon list</h1>
+<table>
+  <thead>
+    <tr class="rounded bg-white">
+      <th  scope="col" class="border"><strong>Coupon Code:</strong></th>
+      <th  scope="col" class="border"><strong>Minimum Discount:%</strong></th>
+      <th  scope="col" class="border"><strong>Maximum Discount</strong></th>
+      <th  scope="col" class="border"><strong>Expiry Date</strong></th>
+      <th  scope="col" class="border"><strong>Maximum Amount</strong></th>
+      <th  scope="col" class="border"><strong>Minimum Amount</strong></th>
+      <th  scope="col" class="border"><strong>number Of Coupon</strong></th>
+     
+      
+
+      <th scope="col" class="border"><strong>status</strong></th>
+      <th scope="col" class="border"><strong>edit</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let coupon of coupons) { %>
+      <tr class="rounded bg-white">
+        <td scope="" class="border"><h4><%= coupon.code %></h4></td>
+        <td class="border"><h4><%= coupon.discount %></h4></td>
+        <td class="border"><h4><%= coupon.maxDiscount %></h4></td>
+        <td class="border"><h4><%= new Date(coupon.expires).toLocaleDateString('en-GB') %></h4></td>
+        <td class="border"><h4><%= coupon.maxAmount %></h4></td>
+        <td class="border"><h4><%= coupon.MinAmount %></h4></td>
+        <td class="border"><h4><%= coupon.noOfCoupon %></h4></td>
+        <td class="border"><%= coupon.isListed ? 'Yes' : 'No' %></td>
+              
+        <td class="border">  <% if (coupon.isListed) { %>
+         <a class="btn btn-warning btn-sm   " href="/admin/unlist-coupon?id=<%= coupon._id %>">Unlist</a>
+       <% } else { %>
+         <a class=" btn btn-success btn-sm" href="/admin/list-coupon?id=<%= coupon._id %>">List</a>
+       <% } %></td>
+      </tr>
+  </tbody>
+  <% } %>
+</table>
+<br>
+</div></div></div>
+<%- include('../layout/adminNewFooter.ejs') %>

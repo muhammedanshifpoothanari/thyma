@@ -1,0 +1,540 @@
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+          <p>Total Revenue: <span id="t"><%= totalRevenue %></span></p>
+        </div>
+        <div class="col-md-6">
+          <p>Total Expenses: <span id="r"><%= totalExpense %></span></p>
+        </div>
+      </div>
+  </div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+  let t = document.getElementById('t').textContent;
+  let r = document.getElementById('r').textContent;
+  let p=t-r
+  var ctx = document.getElementById('myChart').getContext('2d');
+
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Revenue', 'Expenses'],
+      datasets: [{
+        label: 'Daily Sales',
+        data: [t, r],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+  
+  var ctx_ = document.getElementById('myChart_').getContext('2d');
+
+  var myChart = new Chart(ctx_, {
+    type: 'bar',
+    data: {
+      labels: ['Revenue', 'Profit'],
+      datasets: [{
+        label: 'Daily Sales',
+        data: [t, p],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+</script>
+
+
+
+
+
+
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+<!--  -->
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="date">Search Sales By Date:</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Sales </span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><%= totalRevenue %></h6>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="date">Search Sales By Date:</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Expense <span></span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><%= totalExpense %></h6>
+                      <span class="text-danger small pt-1 fw-bold"><%= exp %>%</span> 
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="date">Search Sales By Date:</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Profits <span></span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                    
+                      <h6><%= profit %></h6>
+                      <span class="text-danger small pt-1 fw-bold"><%= percentage %>%</span> 
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Reports -->
+            <div class="col-12">
+              <div class="card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="date">Search Sales By Date:</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                    
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Sale Reports </span></h5>
+
+                  <!-- Line Chart -->
+                  <div id="reportsChart"></div>
+
+                  <script>
+                    
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                          name: 'revenue',
+                          data: [0,t],
+                        }, {
+                          name: 'expense',
+                          data: [0,r]
+                        }, {
+                          name: 'profit',
+                          data: [0,p]
+                        }],
+                        chart: {
+                          height: 350,
+                          type: 'area',
+                          toolbar: {
+                            show: false
+                          },
+                        },
+                        markers: {
+                          size: 4
+                        },
+                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        fill: {
+                          type: "gradient",
+                          gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.3,
+                            opacityTo: 0.4,
+                            stops: [0, 90, 100]
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'smooth',
+                          width: 2
+                        },
+                        xaxis: {
+                          type: 'number',
+                          categories: [0,p]
+                        },
+                        tooltip: {
+                          x: {
+                            format: 'dd/MM/yy HH:mm'
+                          },
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Line Chart -->
+
+                </div>
+
+              </div>
+            </div><!-- End Reports -->
+
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="date">Search Sales By Date:</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                  </ul>
+                </div>
+<!--  <table class="table">
+      <thead>
+        <tr>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <% sales.forEach((sale) => { %>
+          <tr>
+            <td><%= sale.invoice %></td>
+            <td><%= sale.nameOfProduct %></td>
+            <td><%= sale.pricePerUnit %></td>
+            <td><%= sale.quantiyOut %></td>
+            <td><%= sale.revenue %></td>
+            <td><%= sale.expensePerUnit %></td>
+            <td><%= sale.outcome %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table> -->
+                <div class="card-body">
+                  <div style="display: flex; justify-content: space-around;">
+                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                  
+                  <button onclick="exportToExcel()" style="height: 30px; margin-top: 10px; background-color:green;">Print</button>
+                </div>
+                  <table id="h" class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Invoice</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price/Unit</th>
+                        <th scope="col">Quantity Out</th>
+                        <th scope="col">Revenue</th>
+                        <th scope="col">expense/unit</th>
+                        <th scope="col">Outcome</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% sales.forEach((sale) => { %>
+                        <tr>
+                          <td><%= sale.invoice %></td>
+                          <td><%= sale.nameOfProduct %></td>
+                          <td><%= sale.pricePerUnit %></td>
+                          <td><%= sale.quantiyOut %></td>
+                          <td><%= sale.revenue %></td>
+                          <td><%= sale.expensePerUnit %></td>
+                          <td><%= sale.outcome %></td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+              
+
+              </div>
+            </div><!-- End Top Selling -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <!-- Recent Activity -->
+          <div class="card">
+           
+
+            <div class="card-body">
+              <h5 class="card-title">Recently <span>Subscribed </span></h5>
+
+              <div class="activity">
+                <% userSub.forEach((user) => { %>
+                <div class="activity-item d-flex">
+                  
+                  <div class="activite-label"><%= new Date(user.subDate).toLocaleDateString('en-GB') %></div>
+                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                  <div class="activity-content">
+                    <a href="#" class="fw-bold text-dark"><%= user.name  %></a> 
+                  </div>
+                </div><!-- End activity item-->
+                <% }); %>
+                
+              </div>
+
+            </div>
+          </div><!-- End Recent Activity -->
+
+          <!-- Budget Report -->
+          <div class="card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+
+              <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
+                    legend: {
+                      data: ['Allocated Budget']
+                    },
+                    radar: {
+                      // shape: 'circle',
+                      indicator: [{
+                          name: 'Sales',
+                          max: 6500
+                        },
+                        {
+                          name: 'Administration',
+                          max: 16000
+                        },
+                        {
+                          name: 'Information Technology',
+                          max: 30000
+                        },
+                        {
+                          name: 'Customer Support',
+                          max: 38000
+                        },
+                        {
+                          name: 'Development',
+                          max: 52000
+                        },
+                        {
+                          name: 'Marketing',
+                          max: 25000
+                        }
+                      ]
+                    },
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [{
+                          value: [4200, 3000, 20000, 35000, 50000, 18000],
+                          name: 'Allocated Budget'
+                        },
+                        {
+                          value: [5000, 14000, 28000, 26000, 42000, 21000],
+                          name: 'Actual Spending'
+                        }
+                      ]
+                    }]
+                  });
+                });
+   
+  function exportToExcel() {
+  // Get the HTML content of the table
+  var table = document.getElementById("h").outerHTML;
+  
+  // Open a new window
+  var newWindow = window.open();
+  
+  // Write the content to the new window
+  newWindow.document.write(table);
+  
+  // Print the new window
+  newWindow.print();
+}
+              </script>
+
+            </div>
+          </div><!-- End Budget Report -->
+
+        
+
+  </main><!-- End #main -->
+
+  <script src="node_modules/exceljs.min.js"></script>
+  <script src="/assets/FileSaver.min.js"></script>
+<%- include('../layout/adminNewFooter.ejs') %>

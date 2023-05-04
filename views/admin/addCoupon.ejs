@@ -1,0 +1,111 @@
+
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+<!--  -->
+<style>.coupon-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #F2E9E4;
+}
+
+.coupon-form input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #2B2D42;
+  color: #F2E9E4;
+  margin-bottom: 1rem;
+}
+
+.coupon-form button {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: brown;
+  color: #F2E9E4;
+}</style>
+<section id="main" class="main" style="
+border-radius: 0px;height:fit-content ;border-radius: 8px 8px 8px 100px;background: linear-gradient(135deg, #4A4E69, #2B2D42 30%, #9CAFB7 30%, #F2E9E4);">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+     
+
+      <div class="col-lg-12 col-xl-11">
+        <div class="card_s text-black" style="border-radius: 8px 8px 8px 100px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center" >
+             
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                  
+                  <div class="card_s p-2 text-center">
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #F2E9E4;">Add Coupon</p>
+                
+                <form action="/admin/addCoupon" class="tm-edit-product-form coupon-form" method="post">                    <label for="code" style="color: #F2E9E4;">Code:</label>
+                    <input type="text" id="code" name="code" required>
+          
+            
+                <label for="discount" style="color: #F2E9E4;">Min Discount:</label>
+                <input type="number" id="discount" name="discount" required>
+       
+                <!--  -->
+               
+                <label for="discount" style="color: #F2E9E4;">Max Discount:</label>
+                <input type="number" id="discount" name="maxDiscount" required>
+          
+                <label for="discount" style="color: #F2E9E4;">Maximum price Limit:</label>
+                <input type="number" id="discount" name="maxPrice" required>
+     
+                <label for="discount" style="color: #F2E9E4;">Minimum price Limit:</label>
+                <input type="number" id="discount" name="minPrice" required>
+         
+                <label for="discount" style="color: #F2E9E4;">Number Of Coupon:</label>
+                <input type="number" id="discount" name="numberOfCoupon" required>
+                <!--  -->
+            
+                <label for="expires" style="color: #F2E9E4;">Expires:</label>
+                <input type="date" id="expires" name="expires" required>
+          
+                <div><hr>
+                <button style="background-color: brown;" type="submit">Add Coupon</button>
+              </div>
+                  </form>
+                
+                  <p>
+                    <% 
+                       if(typeof msg !== 'undefined'){
+                    %>
+                    <p style="color:green"><%= msg %></p>
+                    <%
+                       }
+                       %>
+                  </p>
+              </div>
+            </div>
+            
+
+ 
+
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  class="img-fluid image-verify" alt="Sample image">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../layout/adminNewFooter.ejs') %>
+
+

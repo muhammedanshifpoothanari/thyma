@@ -1,0 +1,59 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+  <section id="main" class="main" style="border-radius: 0px; height: fit-content;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+       
+        <div class="col-lg-12 col-xl-11">
+          <div class="card_s text-black" style="border-radius: 8px 8px 8px 100px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+               
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" style="background: linear-gradient(135deg, #c3cfe2, #c3cfe2 30%, #f4f4f4 30%, #f4f4f4);">
+                    
+                    <div class="card_s p-2 text-center">
+                      <h1 style="font-size: 40px; color: #333; text-align: center;">Add Banner</h1>
+                      <form method="POST" action="" enctype="multipart/form-data">
+                        <label>Title:</label>
+                        <input type="text" name="title" required />
+                        <br /><br />
+                        <label>Image:</label>
+                        <input type="file" name="image" accept="image/*" required />
+                        <br /><br />
+                        <label>Link:</label>
+                        <input type="text" name="link" required />
+                        <br /><br />
+                        <button type="submit" style="background-color: #333; color: #fff; padding: 10px 20px; border: none; border-radius: 4px;">Add Banner</button>
+                      </form>
+                      <br>
+                      <p style="font-size: 20px; color: green;">
+                        <% 
+                           if(typeof msg !== 'undefined'){
+                        %>
+                        <%= msg %>
+                        <%
+                           }
+                        %>
+                      </p>
+                    </div>
+                </div>
+  
+   
+  
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+  
+                  <img src="/userimages/epicurean_adventures_dates_hero_secondary_mobile.jpeg"style="border-bottom-right-radius: 50px; transform: skew(-3deg);"
+                    class="img-fluid " alt="Banner image">
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <%- include('../layout/adminNewFooter.ejs') %>

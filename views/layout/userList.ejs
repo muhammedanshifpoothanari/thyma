@@ -1,0 +1,37 @@
+<%- include('../layout/header.ejs') %>
+
+<%- include('../layout/AdminNavBar.ejs') %>
+
+<div class="container">
+    <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-12">
+            <h1 class=" text-info">User list</h1>
+            
+<ol>
+  <% users.forEach((user) => { %>
+    <li>
+      <strong>user name:</strong> <%= user.name %> <br><strong>email:</strong> <%= user.email %><br>
+      <strong>product mobile:</strong>
+      <%= user.mobile %><br>
+      <strong>user is  admin:</strong>
+      <%= user.is_admin %><br>
+      <form action="/userList/delete/<%= user._id %>" method="POST">
+        <button>Delete</button><br><br>
+      </form>
+    
+      <form action="/userList/update/<%= user._id %>" method="POST">
+        <input type="text" name="name" placeholder="New name">
+        <input type="email" name="email" placeholder="New email">
+        <input type="text" name="mobile" placeholder="New mobile no">
+        <input type="text" name="is_admin" placeholder="New admin or not">
+        <button>Update</button>
+      </form>
+    </li>
+    <p>.......................................................................</p>
+  <% }); %>
+</ol>
+</div>
+</div>
+</div>
+
+<%- include('../layout/footer.ejs') %>

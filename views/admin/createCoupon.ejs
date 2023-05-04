@@ -1,0 +1,20 @@
+<%- include('../layout/adminNewHEader.ejs') %>
+  <!-- ======= Header ======= -->
+   <%- include('../layout/headerNavAdmin.ejs') %>
+
+  <%- include('../layout/slidebar.ejs') %>
+
+<h1>Coupons</h1>
+<ul id="main" class="main">
+  <% coupons.forEach((coupon) => { %>
+    <li>
+      <strong><%= coupon.code %></strong> - <%= coupon.discount %>% discount (expires <%= coupon.expires.toDateString() %>)<br>
+      <form action="/admin/coupons/delete/<%= coupon._id %>" method="POST">
+        <button>Delete</button>
+      </form>
+     
+    </li>
+  <% }); %>
+</ul>
+
+<%- include('../layout/adminNewFooter.ejs') %>

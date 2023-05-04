@@ -1,0 +1,135 @@
+<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+    <div class="container py-4">
+    <div class="row d-flex justify-content-center py-5">
+    <div class="col-md-6">
+    <h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
+    <span>Get e-mail updates about our latest products and special offers</span>
+    </div>
+    <div class="col-md-6 d-flex align-items-center">
+      <form  class="subscribe-form">
+        <div class="form-group d-flex">
+          <input type="email" id="email" class="form-control" name="sub" placeholder="Enter email address">
+          <input type="button" value="Subscribe" onclick="subscribe()" class="submit px-3">
+        </div>
+      </form>
+              </div>
+    </div>
+    </div>
+    </section>
+    <footer class="ftco-footer ftco-section">
+    <div class="container">
+    <div class="row">
+    <div class="mouse">
+    <a href="#" class="mouse-icon">
+    <div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
+    </a>
+    </div>
+    </div>
+    <div class="row mb-5">
+    <div class="col-md">
+    <div class="ftco-footer-widget mb-4">
+    <h2 class="ftco-heading-2">Thyma Dates</h2>
+    <p>Customer enrichment through nutrient products .</p>
+    <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+    <li class="ftco-animate"><a href="https://twitter.com/muhammedanshifp"><span class="icon-twitter"></span></a></li>
+    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+    </ul>
+    </div>
+    </div>
+    <div class="col-md">
+    <div class="ftco-footer-widget mb-4 ml-md-5">
+    <h2 class="ftco-heading-2">Menu</h2>
+    <ul class="list-unstyled">
+        <li class="nav-item "><a href="/home" class="nav-link">Home</a></li>
+        <li class="nav-item active dropdown">
+            <li class="dropdown-item" href="/home">Shop</li>
+            <li class="dropdown-item" href="/cart">cart</li>
+            <li class="dropdown-item" href="/wish">wish</li>
+    </ul>
+    </div>
+    </div>
+    <div class="col-md-4">
+    <div class="ftco-footer-widget mb-4">
+    <h2 class="ftco-heading-2">About US</h2>
+    <div class="d-flex">
+    <p>At thyma , we replenish the Dates coming straight from the farm of the ancient 
+        city of al ula,thyma,al qassim in Saudi Arabia along with global assortment of exotic nuts 
+        , dry fruits , seeds , spices and other confectionery.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md">
+    <div class="ftco-footer-widget mb-4">
+    <h2 class="ftco-heading-2">Have a Questions?</h2>
+    <div class="block-23 mb-3">
+    <ul>
+    <li><span class="icon icon-map-marker"></span><span class="text">new thyma,near tabuk city,saudi arabia</span></li>
+    <li><a href="#"><span class="icon icon-phone"></span><span class="text">0502755071</span></a></li>
+    <li><a href="#"><span class="icon icon-envelope"></span><span class="text">thymadates@gmail.com</span></a></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12 text-center">
+    
+    <p>
+    Copyright by <span style="color: green;">Thyma Dates And Nuts</span>-<script>document.write(new Date().getFullYear());</script> 
+    </p>
+    </div>
+    </div>
+    </div>
+    </footer>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	function subscribe(){
+  let sub=document.getElementById('email').value;
+  const xhttp = new XMLHttpRequest();
+  $.ajax({
+    url:'/sub',
+    type:'post',
+    dataType:'json',
+    contentType:'application/json',
+    data:JSON.stringify({sub:sub}),
+    success:(data)=>{
+		console.log(data);
+		if(data.msg=='subscribed'){
+        	console.log('==============---------------------------==================');
+		    	swal({
+                  title: "Subscribed",
+                  text: `${sub} is subscribed successfully`,
+                  icon: "success",                  
+                  position: "center",
+            });
+		}
+    else if(data.msg=='already_subscribed'){
+          console.log('==============-----------///][][][][][][][///----------------==================');
+          swal({
+                  title: "Subscribed",
+                  text: `${sub} is already  subscribed`,
+                  icon: "success",                  
+                  position: "center",
+            });
+    }
+		else{
+		    	console.log('==============---///////////--------//////////----------------==================');
+		    	swal({
+                  title: "Error in Subscribing!",
+                  text: `subscribing to ${sub} occured an error,please try again`,
+                  icon: "error",
+                  
+                  position: "center",
+            })
+		}
+		
+      }
+  })
+}
+</script>
+
+    
+    

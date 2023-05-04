@@ -1,0 +1,147 @@
+
+
+<%- include('../layout/header.ejs') %>
+<%- include('../layout/nav.ejs') %>
+<!------ Include the above in your HEAD tag ---------->
+<div class="container">
+    <div class="row">
+    <h2>Feedback</h2>
+    <table width="100%">
+      <div class="col-md-9 col-md-offset-0">
+        <tr><td width="77%">
+        <div class="">
+          <fieldset>
+            <!-- Email input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="email">Title(optional)</label>
+              <div class="col-md-9">
+                <input id="title" name="title" type="text" placeholder="title please" class="form-control" required>
+              </div>
+            </div>           
+            <input type="hidden" id="id" value="<%- productId %>">
+            <!-- Message body -->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="description">Your Feedback</label>
+              <div class="col-md-9">
+                <textarea class="form-control" id="description" name="description" placeholder="Please enter your feedback here..." rows="5"></textarea>
+              </div>
+            </div>
+                       <!-- Rating -->
+                       <div class="form-group">
+                        <label class="col-md-3 control-label" for="message">Your rating</label>
+                        <div class="col-md-9">
+                          <a style="text-decoration: none;font-size: 50px;" id="link1" onclick="rate(1)" >☆</a>
+                          <a style="text-decoration: none;font-size: 50px;" id="link2"  onclick="rate(2)">☆</a>
+                          <a style="text-decoration: none;font-size: 50px;" id="link3" onclick="rate(3)">☆</a>
+                          <a style="text-decoration: none;font-size: 50px;"  id="link4" onclick="rate(4)">☆</a>
+                          <a style="text-decoration: none;font-size: 50px;" id="link5" onclick="rate(5)">☆</a> 
+                           <span style="font-weight: bold; font-size: large;" id="mark"></span>
+                      </div>
+                      </div>
+                      <input type="hidden" id="rated" name="rated">
+            <button type="submit" class="btn btn-primary btn-md" id="btn" onclick="submit()" >Submit</button>
+            <button type="reset" class="btn btn-default btn-md" onclick="rate(0)">Clear</button>
+    </td>
+    </tr>
+    </table>
+</div>
+<script>
+    function rate(a){
+     console.log(a);
+     if(a==1){
+         document.getElementById('link1').style.color="yellow"
+         document.getElementById('link2').style.color="blue"
+        document.getElementById('link3').style.color="blue"
+        document.getElementById('link4').style.color="blue"
+        document.getElementById('link5').style.color="blue"
+        document.getElementById('mark').style.color="red"
+        document.getElementById('mark').innerHTML="Very Bad"
+        document.getElementById('title').value="Very Bad"
+        document.getElementById('rated').value=1
+        
+     }
+     else if(a==0){
+        document.getElementById('link1').style.color="blue"
+        document.getElementById('link2').style.color="blue"
+        document.getElementById('link3').style.color="blue"
+        document.getElementById('link4').style.color="blue"
+        document.getElementById('link5').style.color="blue"
+        document.getElementById('mark').style.color="blue"
+        document.getElementById('mark').innerHTML=""
+        document.getElementById('title').value=""
+        document.getElementById('rated').value=0
+
+     }
+     else if(a==2){
+        document.getElementById('link1').style.color="yellow"
+        document.getElementById('link2').style.color="yellow"
+        document.getElementById('link3').style.color="blue"
+        document.getElementById('link4').style.color="blue"
+        document.getElementById('link5').style.color="blue"
+        document.getElementById('mark').style.color="orange"
+        document.getElementById('mark').innerHTML=" Bad"
+        document.getElementById('title').value=" Bad"
+        document.getElementById('rated').value=2
+
+     }
+     else if(a==3){
+        document.getElementById('link1').style.color="yellow"
+        document.getElementById('link2').style.color="yellow"
+
+        document.getElementById('link3').style.color="yellow"
+        document.getElementById('link4').style.color="blue"
+        document.getElementById('link5').style.color="blue"
+        document.getElementById('mark').style.color="yellow"
+        document.getElementById('mark').innerHTML=" avarage"
+        document.getElementById('title').value=" avarage"
+        document.getElementById('rated').value=3
+     }
+     else if(a==4){
+        document.getElementById('link1').style.color="yellow"
+        document.getElementById('link2').style.color="yellow"
+        document.getElementById('link3').style.color="yellow"
+        document.getElementById('link4').style.color="yellow"
+        document.getElementById('link5').style.color="blue"
+        document.getElementById('mark').style.color="blue"
+        document.getElementById('mark').innerHTML=" good"
+        document.getElementById('title').value=" good"
+        document.getElementById('rated').value=4
+    }
+     else if(a==5){
+        document.getElementById('link1').style.color="yellow"
+        document.getElementById('link2').style.color="yellow"
+        document.getElementById('link3').style.color="yellow"
+        document.getElementById('link4').style.color="yellow"
+        document.getElementById('link5').style.color="yellow"
+        document.getElementById('mark').style.color="green"
+        document.getElementById('mark').innerHTML=" Very Good"
+        document.getElementById('title').value=" Very Good"
+        document.getElementById('rated').value=5
+     }
+
+    }
+    function submit(){
+  let title=document.getElementById('title').value;
+  let id=document.getElementById('id').value;
+  let description = document.getElementById('description').value;
+  let rated=document.getElementById('rated').value;
+  const xhttp = new XMLHttpRequest();
+  $.ajax({
+    url:'/feedback',
+    type:'post',
+    dataType:'json',
+    contentType:'application/json',
+    data:JSON.stringify({title,description,rated,id}),
+    success:(data)=>{
+      if(data.msg){
+        console.log('jhgfhjklhgjk');
+        alert('succuusssss')
+      }
+    
+    
+    }
+  })
+}
+</script>
+
+<%- include('../layout/footer.ejs') %>

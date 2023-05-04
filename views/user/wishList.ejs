@@ -1,0 +1,314 @@
+
+<%- include('../layout/header.ejs') %>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<%- include('../layout/nav.ejs') %>
+<div class="hero-wrap hero-bread" style="background-image: url('userimages/homeHeaderImg.jpg');">
+<div class="container">
+<div class="row no-gutters slider-text align-items-center justify-content-center">
+<div class="col-md-9 ftco-animate text-center">
+<p class="breadcrumbs"><span class="mr-2"><a href="/home">Home</a></span> <span>WishList</span></p>
+<h1 class="mb-0 bread">My Cart</h1>
+</div>
+</div>
+</div>
+</div>
+<section class="ftco-section ftco-cart">
+<div class="container">
+<div class="row">
+<div class="col-md-12 ftco-animate">
+<div class="cart-list">
+<table class="table">
+<thead class="thead-primary">
+<tr class="text-center">
+<th>&nbsp;Product cancel</th>
+<th>&nbsp;Product image</th>
+<th>Product name</th>
+<th>Price</th>
+<th>Quantity(in kg)</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="text-center">
+  <% combined.forEach((products) => { %>    
+    <td class="product-remove">
+    <form action="/cancel" method="post">
+      <input type="hidden" name="cartItemId" value="<%= products._id %>">
+      <button type="submit" id="cancel" style="border-radius: 100px 80px 30px 40px;width: 30px;background-color: red;"><span class="ion-ios-close" style="font-size: 30px;"></span></button>
+    </form>
+  </td>
+
+<td class="image-prod"><div class="img" style="background-image:url('/userimages/<%= products.image[0] %>');"></div></td>
+
+<td class="product-name">
+<h3><%= products.name %></h3>
+</td>
+
+<td class="price">
+   <span id="prices"> <%= products.price %></span>
+   <input type="hidden" name="price" id="price<%= products._id %>" value="<%= products.price %>">
+</td>
+<td class="quantity" style="width:200px;">
+  <div class="input-group col-md-12 d-flex mb-3 justify-content-center align-items-center">   
+    <div class="input-group-prepend">
+      <input type="hidden" name="itemId" value="<%= products._id %>" id="itemId">  
+      <input type="text" name="quantity" id="quantityOld<%= products._id %>" class="quantity form-control input-number" onkeyup="updateCartItemQuantity('<%= products._id %>')" min="1" max="<%= products.unitInStock %>" placeholder="<%= products.quantity %>" value="<%= products.quantity %>" class="qty">      
+    </div>    
+  </div>
+</td>
+<td class="total"><span id="PriceIntoQuanty<%= products._id %>">&#8377;<%= products.price  * products.quantity %></span> </td>
+</tr><!-- END TR-->
+<% }); %>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="row justify-content-end">
+<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+<div class="cart-total mb-3">
+<h3>Coupon Code</h3>
+<p>Enter your coupon code if you have one</p>
+<form accept-charset="utf-8">
+  <div class="coupon-input d-flex" >
+      <input type="text" name="code"  id="code" class="form-control text-left px-3" placeholder="Coupon Code">   
+  </div>
+</div>
+<button type="button" onclick="sale()" class="btn btn-primary py-3 px-4">Apply Coupon </button>
+</form> 
+</div>
+<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+<div class="cart-total mb-3">
+<h3>Cart Totals</h3>
+<form action="#" method="get" accept-charset="utf-8">
+  <table>
+      <tbody>
+          <tr>
+              <td>Subtotal</td>
+              <td class="price-total" style="padding-left: 30px;" id="sub_total"  name="sub_total">&#8377;<%= subtotal %></td>
+              <input type="hidden" id="subtotalOld" name="subtotalOld"  value="<%= subtotal %>">
+              <td id="subtotal"> <span hidden="hidden" id="subtotals"><%= subtotal %></span></td>
+             
+             
+          </tr>
+          <tr>
+                  <td>Discount</td>
+                  <td><span style="padding-left: 30px;" id="discounted">%</span></td> 
+                  <input type="hidden" name="discountOld" id="discount">
+               
+          </tr>
+          <tr>
+              
+              <% if(typeof discountedSubtotal !=='undefined') { %>
+                  <td>discountedSubtotal</td>
+                  <td id="discountedSubtotalNew" style="padding-left: 30px;"> <%= discountedSubtotal %></td>
+                  <input type="hidden" name="discountedSubtotalOld" id="discountedSubtotal" value="<%= discountedSubtotal %>">
+                  
+                  
+                <% } %>
+          </tr>
+          
+          <tr> <span id="message_"></span></tr>
+          <tr>
+              <td>Shipping</td>
+              <td class="free-shipping" style="padding-left: 30px;">Free Shipping</td>
+          </tr>
+          <tr>
+              
+              <% if(typeof discountedSubtotal !=='undefined') { %>
+                  <td>Total</td>
+                  <td class="price-total" id="newDiscount" style="padding-left: 30px;" name="newDiscount">&#8377;<%= discountedSubtotal %></td>
+                  
+                <% } 
+                else { %>
+                  <td>Total</td>
+                  <td class="price-total" id="total" style="padding-left: 30px;" name="total">&#8377;<%= subtotal %></td>
+                <% } %>
+          </tr>
+      </tbody>
+  </table>
+  <% if(typeof msg !=='undefined') { %>
+                  <td>caution</td>
+                  <td class="subtotal"> <p style="color: brown;"><%= msg %></p></td>
+                  
+                <% } %>
+         
+  <!-- /.btn-cart-totals -->
+</form>
+</div>
+<p><button type="button" onclick="goToCheckout()" class="btn btn-primary py-3 px-4">Proceed to Checkout</button></p>
+</div>
+</div>
+</div>
+</section>
+
+
+<%- include('../layout/navFooterUser.ejs') %>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.easing.1.3.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/aos.js"></script>
+<script src="/js/jquery.animateNumber.min.js"></script>
+<script src="/js/bootstrap-datepicker.js"></script>
+<script src="/js/scrollax.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="/js/google-map.js"></script>
+<script src="/js/main.js"></script>
+
+<script>
+    
+    function updateCartItemQuantity(cartItemId) {
+  let quantity =  document.getElementById(`quantityOld${cartItemId}`).value;
+  let price=document.getElementById(`price${cartItemId}`).value;
+  let code=document.getElementById('code').value;
+  console.log(code);
+  
+  let subtotal = document.getElementById('subtotals').textContent;
+  const discount=document.getElementById('discount');
+  const discountedSubtotal=document.getElementById('discountedSubtotal');
+
+  const xhttp = new XMLHttpRequest();
+
+  $.ajax({
+    url:'/cart/update',
+    type:'post',
+    dataType:'json',
+    contentType:'application/json',
+    data:JSON.stringify({cartItemId: cartItemId, quantity: quantity,subtotal:subtotal,discount:discount,discountedSubtotal:discountedSubtotal,price:price,code:code}),
+  success:(data)=>{  console.log(data);
+     if (data.wrong!=1) {
+      
+     
+      if(data.cartItemId==cartItemId){
+        document.getElementById('total').innerHTML=data.total;
+        document.getElementById('sub_total').innerHTML = 'Rs.' + data.subtotal;
+        document.getElementById(`PriceIntoQuanty${cartItemId}`).innerHTML=data.q_p
+        document.getElementById('message_').innerHTML=data.msg
+
+        document.getElementById('discounted').innerHTML=data.discount;
+      
+        
+      
+
+        document.getElementById('newDiscount').innerHTML=data.discountedSubtotal;
+      
+      }
+    }}
+  })
+}
+   
+function sale(){
+  
+  let code=document.getElementById('code').value;
+  
+  let subtotal = document.getElementById('subtotals').textContent;
+
+  const xhttp = new XMLHttpRequest();
+ 
+  
+  $.ajax({
+    url:'/cart/update/code',
+    type:'post',
+    dataType:'json',
+    contentType:'application/json',
+    data:JSON.stringify({subtotal:subtotal,code:code}),
+    success:(data)=>{
+      
+    
+        console.log(data);
+        document.getElementById('total').innerHTML=data.subtotal;
+        document.getElementById('sub_total').innerHTML = 'Rs.' + data.subtotal;
+        
+ 
+        document.getElementById('discounted').innerHTML=data.discount;
+        
+        
+      
+
+        document.getElementById('newDiscount').innerHTML=data.subtotal;
+        console.log(data);
+    
+    }
+  })
+}
+function goToCheckout() {
+  const discount=document.getElementById('discounted').textContent;
+  const code=document.getElementById('code').value;
+  const total = document.getElementById('total').textContent;
+  const url = '/checkout?total=' + encodeURIComponent(total)+'&code='+encodeURIComponent(code)+'&discount='+encodeURIComponent(discount);
+  window.location.href = url;
+}
+$(document).ready(function(){
+  let id=document.getElementById('itemId').value
+
+var quantitiy=0;
+$('.quantity-right-plus'+id).click(function(e){
+
+// Stop acting like a button
+e.preventDefault();
+// Get the field name
+var quantity = parseInt($('#quantityOld'+id).val());
+
+// If is not undefined
+
+$('#quantityOld'+id).val(quantity + 1);
+
+
+// Increment
+
+});
+
+$('.quantity-left-minus'+id).click(function(e){
+// Stop acting like a button
+e.preventDefault();
+// Get the field name
+var quantity = parseInt($('#quantityOld'+id).val());
+
+// If is not undefined
+
+// Increment
+if(quantity>0){
+$('#quantityOld'+id).val(quantity - 1);
+}
+});
+  
+
+});
+document.getElementById("cancel").addEventListener("click", function(event) {
+   
+          
+    // Show a confirmation popup using SweetAlert
+    swal({
+      title: "Are you sure?",
+      text: "You are about to cancel this item.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willCancel) => {
+      if (willCancel) {
+        // If the user confirms the cancellation, fade out the table row
+        let row = event.target.closest("tr");
+        row.style.opacity = 0;
+        setTimeout(function() {
+          row.style.display = "none";
+          // Show a success message using SweetAlert
+          swal("Item Cancelled", "The item has been successfully cancelled.", "success");
+        }, 500); // Fade out animation duration is 0.5 seconds (500ms)
+      }
+    });
+  });
+</script>
+   
+    };
+</script>
+
+</body>
+</html>
