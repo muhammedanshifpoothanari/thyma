@@ -176,10 +176,7 @@ const addToCart = async (req, res) => {
   
       if (discount) {
 
-        if(combined.unitInStock>=quantity){
-        
-   
-               
+        if(combined[i].unitInStock>=quantity){ 
           const discountedSubtotal = ((subtotal * (1 - (discount/100)))).toFixed(2);
           console.log(discountedSubtotal+'nd fxfdg'); 
           res.status(200).send({
