@@ -134,6 +134,7 @@ const addToCart = async (req, res) => {
       console.log(cart);
       const oldQuantity = cart.quantity;
       console.log(oldQuantity);
+      
       cart.quantity = quantity;
       await cart.save();
       console.log(cart);
@@ -155,17 +156,15 @@ const addToCart = async (req, res) => {
         discount = null;
       }
       const productsInCart = await products.find({ _id: { $in: cartItemIds } });
-      console.log('\\\\\\\\\\\\\\\\\\\\\\\\\\');
-      console.log(productsInCart);
-      console.log('\\\\\\\\\\\\\\\\\\\\\\\\\\');
+    
+     
   // Retrieve quantities using the _id field
   const quantities = await carts.find({ ref: { $in: cartItemIds } }, { quantity: 1, _id: 0 }).sort({_id: -1});
-  console.log('=================================');
+
   console.log(quantities);
   // Combine products with quantities
   const combined = productsInCart.map((p, i) => ({ ...p.toObject(), quantity: quantities[i].quantity }));
   
-      console.log('-----------------------',combined,'-------------------------------------------');
       // Calculate subtotal
       const subtotal = combined.reduce((total, item) => {
         if (typeof item.price === 'number') {
@@ -176,8 +175,10 @@ const addToCart = async (req, res) => {
       }, 0);
   
       if (discount) {
-        console.log('test 10');
-        console.log(discount);
+
+        if(productsInCart.unitInStock>=quantity){
+        
+   
                
           const discountedSubtotal = ((subtotal * (1 - (discount/100)))).toFixed(2);
           console.log(discountedSubtotal+'nd fxfdg'); 
@@ -192,7 +193,18 @@ const addToCart = async (req, res) => {
             q_p:q_p
           });            
         
-      } else {console.log('test 11');
+      }else{
+        res.status(200).send({
+          msg: 'product is out of stock',
+          quantity: quantity,
+          subtotal:subtotal,  
+          cartItemId: cartItemId,
+          total: subtotal,
+          q_p:q_p
+        });
+      }
+
+    } else {
         res.status(200).send({
           msg: 'Cart item quantity updated successfully',
           quantity: quantity,
