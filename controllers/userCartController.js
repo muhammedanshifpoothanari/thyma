@@ -176,7 +176,7 @@ const addToCart = async (req, res) => {
   
       if (discount) {
 
-        if(productsInCart.unitInStock>=quantity){
+        if(combined.unitInStock>=quantity){
         
    
                
