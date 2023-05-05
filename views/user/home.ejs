@@ -62,6 +62,12 @@
 .carousel-control-next {
   right: 20px;
 }
+@media (max-width: 300px) {
+  .img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
 </style>
 <% if (modalData) { %>
 	<div class="modal">
@@ -147,8 +153,10 @@
 					<div class="product">
 					  <a href="#" class="img-prod">
 
-						<img class="img-fluid" src="/userimages/<%=product.image[0]%>" alt="Product Image" style="max-width: 300px; max-height: 300px; object-fit: contain; overflow: hidden;">			     		<div class="overlay"></div>
-					  </a>
+						<div style="position: relative;">
+							<img class="img-fluid" src="/userimages/<%=product.image[0]%>" alt="Product Image" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+							<div class="overlay"></div>
+						  </div>					  </a>
 					  <div class="text py-3 pb-4 px-3 text-center">
 						<h3><a href="#"><%=product.name%></a></h3>
 						<div class="d-flex">
