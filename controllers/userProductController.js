@@ -43,6 +43,9 @@ const getProduct= async(req,res)=>{
        productId = req.query.productId; // Retrieve the product ID from the query parameters
     const product = await products.findById(productId); // Retrieve the product from MongoDB using Mongoose
    
+    if(product==null){
+      res.redirect('/adm');
+    }
     // 
     // 
       const rate = await Rate.find({product:productId})
