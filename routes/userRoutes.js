@@ -91,19 +91,8 @@ var options = {
  const paid='paid';
  const pending='pending';
 
+  const orderData=await order.save();
 
- const order_=orders({
-   ref:username,
-   name:name,
-   email:email,
-   address:address,
-   phone:phone,
-   payMode:payMode,
-   total:total,
-   paymentStatus:paid,
-   deliveryStatus:pending
-  })
-  const orderData=await order_.save();
 
 	
 res.json({order})
