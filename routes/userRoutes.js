@@ -77,6 +77,34 @@ var options = {
  const order=await instance.orders.create(options);
  console.log(order);
 
+ const { name, email, address, phone, payMode,total } = req.query;
+ console.log(req.query);
+ console.log(name);
+ console.log(address);
+ console.log(phone);
+ console.log(payMode);
+ console.log(total);
+ const username = req.session.username;
+  
+  
+ const unpaid='unpaid';
+ const paid='paid';
+ const pending='pending';
+
+
+ const order_=orders({
+   ref:username,
+   name:name,
+   email:email,
+   address:address,
+   phone:phone,
+   payMode:payMode,
+   total:total,
+   paymentStatus:paid,
+   deliveryStatus:pending
+  })
+  const orderData=await order_.save();
+
 	
 res.json({order})
 } catch (error) {
