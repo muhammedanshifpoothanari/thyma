@@ -125,6 +125,7 @@ const addToCart = async (req, res) => {
     let discount = null;
   
     try {
+      let a='f'
       const cart = await carts.findOne({ ref: cartItemId });
       const oldQuantity = cart.quantity;
       const product = await products.findOne({ _id: cart.ref });
@@ -132,6 +133,8 @@ const addToCart = async (req, res) => {
       // Check if the requested quantity is available in stock
       if (quantity <= product.unitInStock) {
         cart.quantity = quantity;
+       
+
         await cart.save();
         const coupon = await coupons.findOne({ code: code, isListed: true });
         if (coupon) {
