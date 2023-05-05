@@ -91,8 +91,11 @@ var options = {
  const paid='paid';
  const pending='pending';
 
-  const orderData=await order.save();
 
+
+  const orderData=await order.save();
+  console.log(orderData);
+ res.render('upi',{name,email,address,phone,payMode,total})
 
 	
 res.json({order})
