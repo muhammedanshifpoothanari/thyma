@@ -116,103 +116,75 @@ const addToCart = async (req, res) => {
     // Send updated quantity back to client
     res.json({ quantity: updatedCart.quantity });
   };
-
   const updateCartItemQuantity = async (req, res) => {
-
     const cartItemId = req.body.cartItemId;
-    const quantity = parseInt(req.body.quantity); // Parse quantity as integer
-    let discount = null;
-    let subtotal = parseFloat(req.body.subtotal); // Parse subtotal as float
-    console.log(subtotal+'subtotal old');
-    const price = parseFloat(req.body.price); // Parse price as float
+    const quantity = parseInt(req.body.quantity);
+    const price = parseFloat(req.body.price);
     const code = req.body.code;
-    console.log(req.body);
+    let subtotal = parseFloat(req.body.subtotal);
+    let discount = null;
+  
     try {
-      const q_p=price*quantity;
-      // Update the cart item quantity
       const cart = await carts.findOne({ ref: cartItemId });
-      console.log(cart);
       const oldQuantity = cart.quantity;
-      console.log(oldQuantity);
+      const product = await products.findOne({ _id: cart.ref });
       
-      cart.quantity = quantity;
-      await cart.save();
-      console.log(cart);
-      const coupon = await coupons.findOne({ code: code, isListed: true });
-      
-      if (coupon) {
-        discount = coupon.discount;
-      }
-      const username = req.session.username;
-      const wishedRef = await carts.find({ isOrdered: true,userRef:username }, { ref: 1, _id: 0});
-      // console.log(wishedRef);
-      const cartItemIds = wishedRef.map((item) => {
-        return new mongoose.Types.ObjectId(item.ref);
-      });
-      if(req.query.discount){
-       discount = parseFloat(req.query.discount);
-      }
-      if (isNaN(discount)) {
-        discount = null;
-      }
-      const productsInCart = await products.find({ _id: { $in: cartItemIds } });
-    
-     
-  // Retrieve quantities using the _id field
-  const quantities = await carts.find({ ref: { $in: cartItemIds } }, { quantity: 1, _id: 0 }).sort({_id: -1});
-
-  console.log(quantities);
-  // Combine products with quantities
-  const combined = productsInCart.map((p, i) => ({ ...p.toObject(), quantity: quantities[i].quantity }));
-  
-      // Calculate subtotal
-      const subtotal = combined.reduce((total, item) => {
-        if (typeof item.price === 'number') {
-          return total + (item.price * item.quantity);
-        } else {
-          return total;
+      // Check if the requested quantity is available in stock
+      if (quantity <= product.unitInStock) {
+        cart.quantity = quantity;
+        await cart.save();
+        const coupon = await coupons.findOne({ code: code, isListed: true });
+        if (coupon) {
+          discount = coupon.discount;
         }
-      }, 0);
-  
-      if (discount) {
-
-        if(100>=quantity){ 
+        const username = req.session.username;
+        const wishedRef = await carts.find({ isOrdered: true,userRef:username }, { ref: 1, _id: 0});
+        const cartItemIds = wishedRef.map((item) => {
+          return new mongoose.Types.ObjectId(item.ref);
+        });
+        if(req.query.discount){
+         discount = parseFloat(req.query.discount);
+        }
+        if (isNaN(discount)) {
+          discount = null;
+        }
+        const productsInCart = await products.find({ _id: { $in: cartItemIds } });
+        const quantities = await carts.find({ ref: { $in: cartItemIds } }, { quantity: 1, _id: 0 }).sort({_id: -1});
+        const combined = productsInCart.map((p, i) => ({ ...p.toObject(), quantity: quantities[i].quantity }));
+        const subtotal = combined.reduce((total, item) => {
+          if (typeof item.price === 'number') {
+            return total + (item.price * item.quantity);
+          } else {
+            return total;
+          }
+        }, 0);
+        if (discount) {
           const discountedSubtotal = ((subtotal * (1 - (discount/100)))).toFixed(2);
-          console.log(discountedSubtotal+'nd fxfdg'); 
           res.status(200).send({
             msg: 'Cart item quantity updated successfully',
             quantity: quantity,
             discount: discount,
             newDiscountedSubtotal: discountedSubtotal,
             cartItemId: cartItemId,
-            subtotal:discountedSubtotal,
+            subtotal: discountedSubtotal,
             total: discountedSubtotal,
-            q_p:q_p
-          });            
-        
-      }else{
-        res.status(200).send({
-          msg: 'product is out of stock',
-          quantity: quantity,
-          subtotal:subtotal,  
-          cartItemId: cartItemId,
-          total: subtotal,
-          q_p:q_p
-        });
-      }
-
-    } else {
-        res.status(200).send({
-          msg: 'Cart item quantity updated successfully',
-          quantity: quantity,
-          subtotal:subtotal,  
-          cartItemId: cartItemId,
-          total: subtotal,
-          q_p:q_p
-        });
+            q_p: price*quantity
+          });
+        } else {
+          res.status(200).send({
+            msg: 'Cart item quantity updated successfully',
+            quantity: quantity,
+            subtotal: subtotal,  
+            cartItemId: cartItemId,
+            total: subtotal,
+            q_p: price*quantity
+          });
+        }
+      } else {
+        // If the requested quantity is not available in stock, return an error response
+        res.status(400).send({ msg: 'Requested quantity not available in stock' });
       }
     } catch (err) {
-      // Send an error response
       res.status(500).send({ msg: 'Failed to update cart item quantity', error: err });
     }
   };
