@@ -356,7 +356,12 @@
                 <div class="card-body">
                   <div style="display: flex; justify-content: space-around;">
                   <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-                  
+                  <div class="col-sm-8 mt-3">
+                    <button type="button" class="btn" style="color: white;background-color: #012970;"
+                      onclick="return ExportToExcel()"><i class="material-icons">Export to Excel</i> </button>
+                    <button type="button" class="btn" style="color: white;background-color: #012970;"
+                      onclick="return printTable()"><i class="material-icons">Print</i> </button>
+                  </div>
                   <button onclick="exportToExcel()" style="height: 30px; margin-top: 10px; background-color:green;">Print</button>
                 </div>
                   <table id="h" class="table table-borderless datatable">
@@ -526,6 +531,23 @@
   // Print the new window
   newWindow.print();
 }
+
+    function ExportToExcel(type, fn, dl) {
+      var elt = document.getElementById("salesTable");
+      var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+      return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+    }
+    function printTable() {
+      var table = document.getElementById("salesTable");
+      var newWin = window.open('', 'Print-Window');
+      newWin.document.open();
+      newWin.document.write('<html><body onload="window.print()">' + table.outerHTML + '</html>');
+      newWin.document.close();
+      setTimeout(function () { newWin.close(); }, 10);
+    }
+
               </script>
 
             </div>
