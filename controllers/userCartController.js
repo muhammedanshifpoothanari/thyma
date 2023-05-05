@@ -125,7 +125,6 @@ const addToCart = async (req, res) => {
     let discount = null;
   
     try {
-      let a='f'
       const cart = await carts.findOne({ ref: cartItemId });
       const oldQuantity = cart.quantity;
       const product = await products.findOne({ _id: cart.ref });
