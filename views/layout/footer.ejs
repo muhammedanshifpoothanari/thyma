@@ -33,7 +33,7 @@
 		<p>Customer enrichment through nutrient products .</p>
 		<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
 		<li class="ftco-animate"><a href="https://twitter.com/muhammedanshifp"><span class="icon-twitter" style="color: blue;"></span></a></li>
-		<li class="ftco-animate"><a href="#"><span class="icon-watsapp" style="color: green;">&#xf232;</span></a></li>
+		<li class="ftco-animate hover"><a onclick="openWhatsApp()"><span class="icon-watsapp" style="color: green;">&#xf232;</span></a></li>
 		<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
 		</ul>
 		</div>
@@ -103,6 +103,12 @@
     data:JSON.stringify({sub:sub}),
     success:(data)=>{
 		console.log(data);
+		swal({
+                  title: "Error in Subscribing!",
+                  text: `subscribing to ${sub} occured an error,please try again`,
+                  icon: "error",                  
+                  position: "center",
+            })
 		if(data.msg=='subscribed'){
         	console.log('==============---------------------------==================');
 			swal({
@@ -134,6 +140,16 @@
       }
   })
 }
+
+
+
+function openWhatsApp() {
+     var phoneNumber = "7736663540"; 
+     var message = "Hello from Thyma Dates And Nuts! " 
+   
+     var whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+     window.open(whatsappURL, "_blank");
+   }
 </script>
 
 <script src="/js/jquery.min.js"></script>

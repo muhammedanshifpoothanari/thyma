@@ -114,7 +114,7 @@ const profileRender=async(req,res)=>{
       const password=req.body.mobile;
       const userSearchForVerif = await users.findOne({ email:email,is_varified:1})
       console.log(userSearchForVerif+'////////////////////////');
-     
+     if(!userSearchForVerif)    res.render('loginUser',{msg:'user not found,please retry with appropriate email and pasword'})
      
       console.log(req.body);
       const passwordMatch=await bcrypt.compare(password,userSearchForVerif.password);
@@ -374,7 +374,7 @@ const insertUser=async(req,res)=>{
         }
       }
       
-      const profileCancel=async(req,res)=>{
+      const profileCancel= async(req,res)=>{
         console.log('_______________________');
         const cancel=req.body.cancel;
         console.log(cancel);
@@ -443,6 +443,7 @@ const insertUser=async(req,res)=>{
               });
             }
             else{
+              
               userSearchForVerify.isSubscribed.push(email);
               userSearchForVerify.subDate=new Date();
                await userSearchForVerify.save();

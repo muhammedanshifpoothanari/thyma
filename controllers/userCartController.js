@@ -26,13 +26,18 @@ const addToCart = async (req, res) => {
       const quantity = parseInt(req.body.quantity);
   
       const existingCart = await carts.findOne({ ref: req.body.id });
-      
+    console.log('existing');
       if (existingCart) {
+        console.log('existing1');
         existingCart.quantity += quantity;
         const updatedCart = await existingCart.save();
         console.log(updatedCart);
-        res.redirect('/productDetails?productId=' + req.body.id);
+        let redirect = '/productDetails?productId=' + req.body.id
+        res.status(200).send({msg: 'already exist in the cart'})
+
+        console.log(1);
       } else {
+        console.log('existingelse');
         const username = req.session.username;
         const cart = new carts({
           ref: req.body.id,
@@ -43,15 +48,17 @@ const addToCart = async (req, res) => {
         if (cartData) {
           console.log(cartData);
           let redirect = '/productDetails?productId=' + req.body.id;
-          res.redirect(redirect);
+          console.log(3);
+          res.status(200).send({msg: 'Succusfully added to the cart'})
         }
+
       }
     } catch (err) {
       console.error(err);
       res.status(500).send('Server Error');
     }
   };
-  //.......
+  
   const getCart = async (req, res) => {
     try {
       const username = req.session.username;

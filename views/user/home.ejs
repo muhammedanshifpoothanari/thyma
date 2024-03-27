@@ -116,11 +116,7 @@
 								  <button class="page-link <%= originQuery === 'all' ? 'active' : '' %>" name="origin" value="all">All</button>
 								</form>
 							  </li>
-							<li class="page-item">
-							  <form action="" method="get">
-								<button class="page-link <%= originQuery === 'jhordan' ? 'active' : '' %>" name="origin" value="jhordan">jhordan</button>
-							  </form>
-							</li>
+							
 							<li class="page-item">
 							  <form action="" method="get">
 								<button class="page-link <%= originQuery === 'tabuk' ? 'active' : '' %>" name="origin" value="tabuk">tabuk</button>
@@ -154,7 +150,7 @@
 					  <a href="#" class="img-prod">
 
 						<div style="position: relative;">
-							<img class="img-fluid" src="/userimages/<%=product.image[0]%>" alt="Product Image" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+							<img class="img-fluid" src="/userimages/<%=product.image[0]%>" alt="Product Image" style="max-width: 250px; min-width: 250px;min-height: 200px; max-height: 200px;  object-fit: contain;">
 							<div class="overlay"></div>
 						  </div>					  </a>
 					  <div class="text text-center">

@@ -152,7 +152,7 @@ const placeOrder = async (req, res) => {
 const razorpay = async (req, res) => {
   const orderDatas = req.session.orderDatas
   const userId = req.session.user_Id
-  const order = new Order({
+  const order = new Orders({
       user: userId,
       order: orderDatas.order,
       paymentId: orderDatas.orderId,
@@ -173,7 +173,7 @@ const razorpay = async (req, res) => {
   })
 
 
-
+console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   res.json({ orderData })
 
 
@@ -274,13 +274,9 @@ else{
    })
    const orderData=await order.save();
    console.log(orderData);
-  res.render('upi',{name,email,address,phone,payMode,total})
+   res.render('orderSucces')}
+
 }
-  
-
-  // Here you can process the order and redirect to a thank you page
-
-};
 
 const cancelFromOrder=async(req,res)=>{
   try {

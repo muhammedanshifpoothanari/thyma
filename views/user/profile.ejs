@@ -1,23 +1,23 @@
 <%- include('../layout/header.ejs') %>
 <style>.modal {
-  display: none; /* Hide the modal by default */
-  position: fixed; /* Set the position to fixed */
-  z-index: 9999; /* Set the z-index to a high value to make sure it appears on top of other elements */
+  display: none; 
+  position: fixed; 
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; /* Enable scrolling if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Add a black semi-transparent background */
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.4); 
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 10% auto; /* 10% from the top and centered */
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  max-width: 500px; /* Set a maximum width */
+  width: 80%;
+  max-width: 500px; 
 }
 
 .close-modal {
@@ -243,9 +243,8 @@
           <!--  -->
           <div  style="display: flex; justify-content: space-evenly;">
 
-          <button  type="button" onclick="updateAddressFormModal()" class="button">
-            <span class="button__text" >Add Address</Address></span>
-            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+          <button  type="button" onclick="updateAddressFormModal()" class="button flex">
+            <span class="button__text" >Add Address➕</Address></span>
           </button>
           
            
@@ -356,6 +355,17 @@ function updateAddressFormModal(){
         document.body.appendChild(alertBox);
         setTimeout(() => alertBox.classList.add('show'), 100);
         setTimeout(() => alertBox.classList.remove('show'), 3000);
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Profile updated successfully!',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            willClose: () => {
+                window.location.href = '/profiles';
+            }
+        });
     }
   })
 }
@@ -384,12 +394,14 @@ function newaddress(){
         
         console.log(data);
         const alertBox = document.createElement('div');
+      
         alertBox.classList.add('alert');
         alertBox.innerHTML = 'Address added successfully!';
         document.body.appendChild(alertBox);
         setTimeout(() => alertBox.classList.add('show'), 100);
         setTimeout(() => alertBox.classList.remove('show'), 3000);
         window.location.href = '/profiles';
+
     }
   })
 }
@@ -419,7 +431,17 @@ function defaultAdd(defaultadd){
         document.body.appendChild(alertBox);
         setTimeout(() => alertBox.classList.add('show'), 100);
         setTimeout(() => alertBox.classList.remove('show'), 3000);
-        window.location.href = '/profiles';
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Default Address updated successfully!',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            willClose: () => {
+                window.location.href = '/profiles';
+            }
+        });
     }
   })
 }

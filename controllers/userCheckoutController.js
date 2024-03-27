@@ -47,10 +47,11 @@ const showCheckoutPage = async(req, res) => {
       const productsInCart = await products.find({ _id: { $in: cartItemIds } });
       const quantities = await carts.find({ ref:cartItemIds}, {quantity:1,_id:0});
       console.log(quantities); 
-      // Combine products with quantities
+
       const combined = productsInCart.map((p, i) => ({ ...p.toObject(), quantity: quantities[i].quantity }));
-      console.log(combined)
-      const totals=req.query.total; 
+
+      const totals=req.query.total;
+       
       res.render('checkout',{total:totals,combined,name,email,mobile,address,order_id});
     }catch (error) {
          console.log(error);

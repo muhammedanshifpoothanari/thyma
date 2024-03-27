@@ -107,6 +107,12 @@
 
 
 function set(){
+  var name = $('#name').val();
+  var email = $('#email').val();
+  var address = $('#address').val();
+  var phone = $('#phone').val();
+  var payMode = $('#payMode').val();
+  var total = $('#amount').val(); 
   $.ajax({
     url:'/createOrder',
     type:'post',
@@ -124,12 +130,28 @@ var options = {
 	"order_id": res.order.id,
 	"handler": function (response){
 		console.log(response)
-		alert("This step of Payment Succeeded");
+    $.ajax({
+              url: '/processOrder',
+              type: 'get',
+              data: {
+                name: name,
+                email: email,
+                address: address,
+                phone: phone,
+                payMode: payMode,
+                total: total 
+              },
+              success: function(response){
+                console.log(response);
+                window.location.href = '/upiSuccess'
+              },
+              error: function(xhr, status, error){
+                console.error(error);
+              }
+            });
 	},
 	"prefill": {
-		//Here we are prefilling random contact
 		"contact":"9876543210",
-		//name and email id, so while checkout
 		"name": "Twinkle Sharma",
 		"email": "smtwinkle@gmail.com" 
 	},

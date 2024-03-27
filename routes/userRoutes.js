@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser');
 const express=require('express');
 const userRoutes=express();
+const Orders=require("../models/orderModel");
+
 //.......
 const userController=require('../controllers/userController');
 const userProductController=require('../controllers/userProductController');
@@ -11,30 +13,24 @@ const userCheckoutController=require('../controllers/userCheckoutController');
 const userCouponController=require('../controllers/userCouponController');
 
 
-
-//.........
-// Inside app.js
-
 const Razorpay = require('razorpay');
 
-// This razorpayInstance will be used to
-// access any resource from razorpay
+
 const instance = new Razorpay({
   
-    // Replace with your key_id
+
     key_id: 'rzp_test_oSYwBgXHVa3UuF',
   
-    // Replace with your key_secret
+
     key_secret: '9QUqwyOIzeESkNJ8RzrBcsA5'
 });
 
 const { v4: uuidv4 } = require('uuid');
 
-// generate a random order_id
-const order_id = uuidv4();
-// ..........
 
-//   
+const order_id = uuidv4();
+
+
 userRoutes.set('views','./views/user');
 
 userRoutes.get('/',userController.homeRender);
@@ -56,21 +52,19 @@ userRoutes.get('/checkout',userUserController.auth, userCheckoutController.showC
 userRoutes.get('/processOrder',userUserController.auth, userController.processOrder);
 userRoutes.get('/upiSuccess',userUserController.auth, userController.orderSuccuss);
 userRoutes.get('/checkout/:total',userUserController.auth, userCheckoutController.showCheckoutPage);
+
 userRoutes.post('/coupoun/check', userCouponController.getCoupon);
 userRoutes.post('/update-quantity', userCartController.updateQuantity);
-// 
-//Inside app.js
+
 userRoutes.post('/createOrder', async(req, res)=>{
 	try {
 		
-	
-   console.log('\n\n\n============\n\n\n');
 
    const sums =req.session.totals;
    
-   console.log(sums);
+
 var options = {
-  amount: sums*100,  // amount in the smallest currency unit
+  amount: sums*100, 
   currency: "INR",
   receipt: "order_rcptid_11"
 };
@@ -83,33 +77,47 @@ res.json({order})
 		console.log(error);
 }
 })
-//Inside app.js
-userRoutes.post('/verifyOrder', (req, res)=>{
-	
-	// STEP 7: Receive Payment Data
-	const {order_id, payment_id} = req.body;	
-	const razorpay_signature = req.headers['x-razorpay-signature'];
 
-	// Pass yours key_secret here
-	const key_secret = '9QUqwyOIzeESkNJ8RzrBcsA5';	
+userRoutes.post('/verifyOrder', async (req, res) => {
+    const { order_id, payment_id } = req.body;
+    const razorpay_signature = req.headers['x-razorpay-signature'];
+    const key_secret = '9QUqwyOIzeESkNJ8RzrBcsA5';
 
-	// STEP 8: Verification & Send Response to User
-	
-	// Creating hmac object
-	let hmac = crypto.createHmac('sha256', key_secret);
+    try {
 
-	// Passing the data to be hashed
-	hmac.update(order_id + "|" + payment_id);
-	
-	// Creating the hmac in the required format
-	const generated_signature = hmac.digest('hex');
-	
-	
-	if(razorpay_signature===generated_signature){
-		res.json({success:true, message:"Payment has been verified"})
-	}
-	else
-	res.json({success:false, message:"Payment verification failed"})
+        let hmac = crypto.createHmac('sha256', key_secret);
+        hmac.update(order_id + "|" + payment_id);
+        const generated_signature = hmac.digest('hex');
+
+        if (razorpay_signature === generated_signature) {
+            // Extract order details from req.body or req.session, replace with your own logic
+            const { username, email, address, phone, payMode, total } = req.body;
+
+            // Create a new order document
+            const newOrder = new Orders({
+                ref: username,
+                name: username,
+                email: email,
+                address: address,
+                phone: phone,
+                payMode: payMode,
+                total: total,
+                paymentStatus: 'unpaid', 
+                deliveryStatus: 'pending' 
+            });
+
+            // Save the new order to the database
+            const savedOrder = await newOrder.save();
+                
+            // Respond to the client
+            res.render('orderSuccess'); // Render your success page
+        } else {
+            res.json({ success: false, message: "Payment verification failed" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "An error occurred while processing the order" });
+    }
 });
 
 userRoutes.get('/profiles',userUserController.auth,userUserController.loadProfile);

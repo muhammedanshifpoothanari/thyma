@@ -27,7 +27,7 @@
                                         
                                         <div class="col my-auto"> <small>Qty : <%= products.quantity %></small></div>
                                         <div class="col my-auto"><h6 class="mb-0">&#8377; <%= products.price %></h6>
-                                            <a style="color: black;" href="/feedback?productId=<%= products._id %>">Review & Rate</a>
+                                            <a style="color: black; background-color: yellow; padding: 5px; border-radius: 5px;" href="/feedback?productId=<%= products._id %>">Review & Rate</a>
 
                                         </div>
                                     </div>
@@ -35,17 +35,20 @@
                             </div>
                             <% }); %>
                             <hr class="my-3 ">
-                            <div class="row">
-                                <div class="col mt-auto">
-                                    <div class="media col justify-content-between ">
-                                        <div class="col-auto text-right"><span> <i class="fa fa-circle active" style="color: brown;"></i><small  class="text-right mr-sm-2"></small>paymentStatus:  </span></div>
-                                        <div class="flex-col"> <span> <small style="color: green;" class="text-right mr-sm-2"><%= orders.paymentStatus %></small></span></div>
-                                        <div class="col-auto text-right"><span> <i class="fa fa-circle active" style="color: brown;"></i><small  class="text-right mr-sm-2"></small>DeliveryStatus:  </span></div>
-
-                                        <div class="col-auto flex-col-auto"><small style="color: green;" class="text-right mr-sm-2"><%= orders.deliveryStatus %></small><span> </span></div>
+                            <div class="row mt-4">
+                                <div class="row">
+                                   
+                                    <!-- For smaller screens, display elements stacked -->
+                                    <div class="col">
+                                        <span> <i class="fa fa-circle active" style="color: brown;"></i><small class="text-right mr-sm-2"></small>paymentStatus: </span>
+                                        <span> <small style="color: green;"><%= orders.paymentStatus %></small></span>
+                                        <br>
+                                        <span> <i class="fa fa-circle active" style="color: brown;"></i><small class="text-right mr-sm-2"></small>DeliveryStatus: </span>
+                                        <span> <small style="color: green;"><%= orders.deliveryStatus %></small></span>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -75,11 +78,11 @@
                 <div class="row justify-content-between ">
                     
                     <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL payable</h2></div>
-                    <div class="col-auto my-auto ml-auto"><h1 class="display-3 "> <%= orders.total %></h1></div>
+                    <div class="col-auto my-auto ml-auto"><h1 class="display-3 ">&#8377; <%= orders.total %></h1></div>
                 </div>
                 <div class="row mb-3 mt-3 mt-md-0">
-                    <div class="col-auto border-line"> <small class="text-white"><%= orders.email%></small></div>
-                    <div class="col-auto border-line"> <small class="text-white">payMode:<%= orders.payMode %></small></div>
+                    <div class="col-auto border-line"> <small class="mb-1"><%= orders.email%></small></div>
+                    <div class="col-auto border-line"> <small class="mb-1">payMode:<%= orders.payMode %></small></div>
                     
                 </div>
             </div>

@@ -19,29 +19,30 @@ require('mongoose')
 const { v4: uuidv4 } = require('uuid');
 
 
-const addToWish = async(req, res) => {
-    try {console.log('test addcart');
-      //  const product = await products.findById(req.query.id);
+const addToWish = async (req, res) => {
+  try {
       const username = req.session.username;
-      const wish=new wishs({
-        ref:req.body.id,
-        userRef:username
-      })
-      //..
-      const wishData= await wish.save();
-      if(wishData){
-        console.log(wishData);
-        let redirect = '/productDetails?productId=' + req.body.id
-        res.redirect(redirect)
-      }
-      // req.session.cart = cart;
-      
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Server Error');
+     const existing =  await wishs.findOne({ ref: req.body.id }, {username: username});
+     let wishData;
+     if(!existing) {
+      const wish = new wishs({
+          ref: req.body.id,
+          userRef: username
+      });
+       wishData = await wish.save();
     }
-  
-  };
+      if (wishData) {
+          console.log(wishData);
+          res.status(200).json({ success: true });
+      } else {
+          res.status(200).json({ success: true });
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
   
   const getWish = async (req, res) => {
     try {

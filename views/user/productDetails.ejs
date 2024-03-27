@@ -188,13 +188,25 @@ right: 20px;
 	          		<p style="color: #000;">600 kg available</p>
 	          	</div>
           	</div>
-         <button type="submit" id="addToCart" onclick="addCart('<%=product._id%>')" class="like btn btn-primary">   <span style="color:green;">Add to Cart <i style="color:green" class="fa">&#xf07a; </i></span></button>
-		 <form action="/wish/add" method="post">
-			<input type="hidden" name="id" value="<%= product._id %>">
-			<br>
-			<button class="like btn btn-primary" type="submit"><span style="color:green;"> Add to wishlist <i style="color:red" class="fa fa-solid fa-heart"> </i></button></span>
-			</form>
-    			</div>
+			  <p>
+				<% 
+				   if(typeof msg !== 'undefined'){
+				%>
+				<p style="color:rgb(255, 60, 0)"><%= msg %></p>
+				<%
+				   }
+				   %>
+			  </p>
+			
+				<button type="submit" id="addToCart" onclick="addCart('<%=product._id%>')" class="like btn btn-primary">   <span style="color:green;">Add to Cart <i style="color:green" class="fa">&#xf07a; </i></span></button>
+<br>
+<input type="hidden" name="id" value="<%= product._id %>">
+<br>
+<button class="like btn btn-primary" type="submit"  onclick="addToWishlist('<%=product._id%>')"><span style="color:green;"> Add to wishlist <i style="color:red" class="fa fa-solid fa-heart"> </i></button></span>
+
+
+
+            			</div>
 				
     		
     	</div>
@@ -394,20 +406,68 @@ right: 20px;
       data: { id: id, quantity: quantity },
       success: function (data) {
         console.log(data);
-		swal({
-  title: "Success!",
-  text: "The item has been added to your cart",
-  icon: "success",
-  
-  position: "center",
-});
-      },
+		if (data.msg === 'Succusfully added to the cart') {
+        swal({
+          title: "Success!",
+          text: "The item has been added to your cart",
+          icon: "success",
+          position: "center",
+        });
+      } else if (data.msg === 'already exist in the cart') {
+        swal({
+          title: "Info",
+          text: "The item is already in your cart",
+          icon: "info",
+          position: "center",
+        });
+      } else {
+        swal({
+          title: "Error",
+          text: "Failed to add item to cart",
+          icon: "error",
+          position: "center",
+        });
+      }
+    },
       error: function (err) {
         console.error(err);
         alert('error');
       }
     });
   }
+
+
+  function addToWishlist(id) {
+
+    $.ajax({
+        url: '/wish/add',
+        type: 'POST',
+        data: { id: id },
+        success: function (data) {
+            console.log(data);
+            if (data.success) {
+                swal({
+          title: "Success!",
+          text: "The item has been added to your wishlist",
+          icon: "success",
+          position: "center",
+        });
+            } else {
+                alert("Failed to add item to wishlist");
+            }
+        },
+        error: function (err) {
+            console.error(err);
+			swal({
+          title: "Error",
+          text: "Failed to add item to wishlist",
+          icon: "error",
+          position: "center",
+        });
+        }
+    });
+}
+
 		$(document).ready(function(){
 
 		var quantitiy=0;

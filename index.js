@@ -9,7 +9,9 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
+
 app.set("view engine", "ejs");
+console.log("MongoDB URI:", process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
